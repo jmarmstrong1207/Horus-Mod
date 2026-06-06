@@ -11,7 +11,7 @@ public static class Socket
     {
         try
         {
-            HorusPlugin.Logger.LogInfo("Trying to send spawn packet...");
+            HorusPlugin.Logger.LogInfo("Trying to send packet...");
             using var client = new TcpClient();
             await client.ConnectAsync("10.0.0.9", 8777);
             NetworkStream stream = client.GetStream();
@@ -21,7 +21,7 @@ public static class Socket
             {
                 await stream.WriteAsync(data, 0, data.Length);
                 await stream.FlushAsync();
-                HorusPlugin.Logger.LogInfo("Spawn packet sent");
+                HorusPlugin.Logger.LogInfo("packet sent");
             }
             catch (Exception ex)
             {
