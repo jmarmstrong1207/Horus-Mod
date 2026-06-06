@@ -36,12 +36,12 @@ namespace HorusMod.Networking
 
         public static bool IsMultiplayerHost()
         {
-            return IsMultiplayer() && IsServer();
+            return true; //IsMultiplayer() && IsServer();
         }
 
         public static bool IsMultiplayerClient()
         {
-            return IsMultiplayer() && !IsServer();
+            return false; // IsMultiplayer() && !IsServer();
         }
 
         /// <summary>
@@ -56,13 +56,13 @@ namespace HorusMod.Networking
         /// <summary>Only the single-player local game or the multiplayer host may spawn units.</summary>
         public static bool CanSpawn()
         {
-            return IsLocalSinglePlayer() || IsMultiplayerHost();
+            return true; //IsLocalSinglePlayer() || IsMultiplayerHost();
         }
 
         /// <summary>Only the single-player local game or the multiplayer host may delete units.</summary>
         public static bool CanDelete()
         {
-            return CanSpawn();
+            return true; //CanSpawn();
         }
 
         /// <summary>Short label describing the current Horus mode for the UI.</summary>

@@ -1,12 +1,14 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFramework>netstandard2.1</TargetFramework>
+    <TargetFramework>net4.8</TargetFramework>
     <ImplicitUsings>disable</ImplicitUsings>
     <Nullable>disable</Nullable>
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
     <LangVersion>latest</LangVersion>
     <AssemblyName>HorusMod</AssemblyName>
+    <ProjectDir>/home/critzlez/RiderProjects/Horus-Mod/</ProjectDir>
+    <NuclearOptionDir>$(ProjectDir)\NuclearOptionServer_Data\Managed</NuclearOptionDir>
   </PropertyGroup>
 
   <ItemGroup>
@@ -57,8 +59,8 @@
     </Reference>
   </ItemGroup>
 
-  <Target Name="PostBuild" AfterTargets="PostBuildEvent">
-    <Exec Command="if not exist &quot;$(ProjectDir)..\BepInEx\plugins\HorusMod&quot; mkdir &quot;$(ProjectDir)..\BepInEx\plugins\HorusMod&quot;&#xD;&#xA;copy /Y &quot;$(TargetPath)&quot; &quot;$(ProjectDir)..\BepInEx\plugins\HorusMod\$(TargetFileName)&quot;" />
-  </Target>
+  <ItemGroup>
+    <PackageReference Include="Newtonsoft.Json" Version="13.0.4" />
+  </ItemGroup>
 
 </Project>

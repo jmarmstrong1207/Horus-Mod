@@ -1,11 +1,15 @@
 using System;
 using System.Linq;
 using System.Collections.Generic;
+using System.Net.Sockets;
 using UnityEngine;
 using NuclearOption.Networking;
 using Mirage;
 using HorusMod.Networking;
+using HorusMod.Packets;
 using HorusMod.Placement;
+using Newtonsoft.Json;
+using Nuclei.CritzOS.Features.IPC.Packets;
 
 namespace HorusMod.Core
 {
@@ -930,7 +934,33 @@ namespace HorusMod.Core
 
             Camera cam = Camera.main;
             if (cam == null) return;
+            var r = cam.ScreenPointToRay(Input.mousePosition);
+            var origin = r.origin;
+            var destination = r.direction;
+            
+            try
+            {
+                DeletePacket p = new()
+                {
+                    originX = origin.x,
+                    originY = origin.y,
+                    originZ = origin.z,
+                    destinationX = destination.x,
+                    destinationY = destination.y,
+                    destinationZ = destination.z,
+                };
+                var json = JsonConvert.SerializeObject(p);
+                HorusPlugin.Logger.LogInfo(json);
+                _ = Packets.Socket.SendAsync(json);
 
+            }
+            catch (Exception e)
+            {
+                HorusPlugin.Logger.LogError(e);
+                throw;
+            }
+
+            /*
             if (!Physics.Raycast(cam.ScreenPointToRay(Input.mousePosition), out RaycastHit hit, 100000f))
             {
                 return;
@@ -962,6 +992,7 @@ namespace HorusMod.Core
             }
 
             DeleteUnit(unitRoot);
+            */
         }
 
         /// <summary>Destroys a validated unit in a network-safe way and untracks it.</summary>
@@ -1045,12 +1076,6 @@ namespace HorusMod.Core
                 return;
             }
 
-            if (Spawner.i == null)
-            {
-                HorusPlugin.Logger.LogError("HorusMod: Spawner.i is null. Cannot spawn unit.");
-                return;
-            }
-
             var factions = FactionRegistry.factions;
             if (factions == null || factions.Count == 0) return;
 
@@ -1063,12 +1088,40 @@ namespace HorusMod.Core
             GlobalPosition globalPos = position.ToGlobalPosition();
             Quaternion rotation = GetPlacementRotation();
 
+            try
+            {
+                SpawnPacket p = new()
+                {
+                    unitName = def.unitName,
+                    globalPosX = globalPos.x,
+                    globalPosY = globalPos.y,
+                    globalPosZ = globalPos.z,
+                    rotationX = rotation.x,
+                    rotationY = rotation.y,
+                    rotationZ = rotation.z,
+                    rotationW = rotation.w,
+                    factionName = hq.faction.factionName,
+                    uniqueName = ""
+                };
+                var json = JsonConvert.SerializeObject(p);
+                HorusPlugin.Logger.LogInfo(json);
+                _ = Packets.Socket.SendAsync(json);
+
+            }
+            catch (Exception e)
+            {
+                HorusPlugin.Logger.LogError(e);
+                throw;
+            }
+
+            /*
             Unit spawned = Spawner.i.SpawnFromUnitDefinitionInEditor(def, globalPos, rotation, hq, "");
             if (spawned != null)
             {
                 horusSpawnedUnits.Add(spawned);
             }
             HorusPlugin.Logger.LogInfo($"HorusMod: Spawned {def.unitName} at {globalPos} yaw={spawnYaw:F0}° (tracked={spawned != null})");
+            */
         }
     }
 }
