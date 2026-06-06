@@ -1,9 +1,7 @@
 using System;
 using System.Linq;
 using System.Collections.Generic;
-using System.Net.Sockets;
 using UnityEngine;
-using NuclearOption.Networking;
 using Mirage;
 using HorusMod.Networking;
 using HorusMod.Packets;
@@ -932,27 +930,19 @@ namespace HorusMod.Core
                 return;
             }
 
-            Camera cam = Camera.main;
-            if (cam == null) return;
-            var r = cam.ScreenPointToRay(Input.mousePosition);
-            var origin = r.origin;
-            var destination = r.direction;
-            
+            if (!TryGet3DPlacement(out var localPos)) return;
+            var globalPos = localPos.ToGlobalPosition();
             try
             {
                 DeletePacket p = new()
                 {
-                    originX = origin.x,
-                    originY = origin.y,
-                    originZ = origin.z,
-                    destinationX = destination.x,
-                    destinationY = destination.y,
-                    destinationZ = destination.z,
+                    globalPosX = globalPos.x,
+                    globalPosY = globalPos.y,
+                    globalPosZ = globalPos.z,
                 };
                 var json = JsonConvert.SerializeObject(p);
                 HorusPlugin.Logger.LogInfo(json);
                 _ = Packets.Socket.SendAsync(json);
-
             }
             catch (Exception e)
             {

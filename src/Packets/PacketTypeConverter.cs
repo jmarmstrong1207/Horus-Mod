@@ -58,18 +58,12 @@ public class PacketTypeConverter : JsonConverter
         switch (packet)
         {
             case DeletePacket log:
-                writer.WritePropertyName("originX");
-                serializer.Serialize(writer, log.originX);
-                writer.WritePropertyName("originY");
-                serializer.Serialize(writer, log.originY);
-                writer.WritePropertyName("originZ");
-                serializer.Serialize(writer, log.originZ);
-                writer.WritePropertyName("destinationX");
-                serializer.Serialize(writer, log.destinationX);
-                writer.WritePropertyName("destinationY");
-                serializer.Serialize(writer, log.destinationY);
-                writer.WritePropertyName("destinationZ");
-                serializer.Serialize(writer, log.destinationZ);
+                writer.WritePropertyName("globalPosX");
+                serializer.Serialize(writer, log.globalPosX);
+                writer.WritePropertyName("globalPosY");
+                serializer.Serialize(writer, log.globalPosY);
+                writer.WritePropertyName("globalPosZ");
+                serializer.Serialize(writer, log.globalPosZ);
                 break;
             case SpawnPacket log:
                 writer.WritePropertyName("unitName");
@@ -83,11 +77,11 @@ public class PacketTypeConverter : JsonConverter
                 writer.WritePropertyName("rotationX");
                 serializer.Serialize(writer, log.rotationX);
                 writer.WritePropertyName("rotationY");
-                serializer.Serialize(writer, log.rotationX);
+                serializer.Serialize(writer, log.rotationY);
                 writer.WritePropertyName("rotationZ");
-                serializer.Serialize(writer, log.rotationX);
+                serializer.Serialize(writer, log.rotationZ);
                 writer.WritePropertyName("rotationW");
-                serializer.Serialize(writer, log.rotationX);
+                serializer.Serialize(writer, log.rotationW);
                 writer.WritePropertyName("factionName");
                 serializer.Serialize(writer, log.factionName);
                 writer.WritePropertyName("uniqueName");

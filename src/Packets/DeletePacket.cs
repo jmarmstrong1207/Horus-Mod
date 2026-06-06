@@ -13,12 +13,9 @@ public class DeletePacket: CommunicationPacket
     /// <inheritdoc />
     public override PacketType type { get; set; } = PacketType.Delete;
 
-    public float originX { get; set; }
-    public float originY { get; set; }
-    public float originZ { get; set; }
-    public float destinationX { get; set; }
-    public float destinationY { get; set; }
-    public float destinationZ { get; set; }
+    public float globalPosX { get; set; }
+    public float globalPosY { get; set; }
+    public float globalPosZ { get; set; }
     
 
     /// <inheritdoc />
